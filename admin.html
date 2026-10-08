@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin — Kaviyarasan V</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080808;color:#fff;font:15px/1.5 Inter,Arial,sans-serif}
+header{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid #242424;background:#0d0d0d}
+header b{letter-spacing:.04em} header a,header button{color:#FFB000;background:none;border:0;font:inherit;cursor:pointer;text-decoration:none;margin-left:14px}
+main{max-width:900px;margin:0 auto;padding:20px}
+.card{background:#131313;border:1px solid #242424;border-radius:4px;padding:18px;margin-bottom:20px}
+h2{margin:0 0 12px;font-size:1.1rem} h3{margin:0;font-size:.95rem}
+label{display:block;font-size:.8rem;color:#A3A3A3;margin:10px 0 4px}
+input[type=text],input[type=password],input[type=url],textarea{width:100%;padding:10px;background:#0b0b0b;border:1px solid #2c2c2c;border-radius:3px;color:#fff;font:inherit}
+input[type=file]{width:100%;color:#A3A3A3;font-size:.85rem}
+textarea{min-height:64px;resize:vertical}
+.btn{margin-top:14px;padding:10px 18px;background:#FF6B00;border:0;border-radius:3px;color:#000;font-weight:700;cursor:pointer}
+.btn:disabled{opacity:.5;cursor:wait} .btn.ghost{background:#222;color:#fff}
+.btn.del{background:#3a1010;color:#ff8a8a;margin:0;padding:6px 12px}
+.row{display:flex;gap:12px;flex-wrap:wrap} .row>*{flex:1;min-width:180px}
+.msg{margin-top:10px;font-size:.88rem;min-height:1.2em} .ok{color:#6fdc8c} .err{color:#ff8a8a}
+.list{display:grid;gap:10px;margin-top:14px}
+.item{display:flex;gap:12px;align-items:center;background:#0b0b0b;border:1px solid #242424;padding:8px;border-radius:3px}
+.item img,.item .vthumb{width:64px;height:64px;object-fit:cover;border-radius:3px;background:#222;flex:none;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#A3A3A3}
+.item .meta{flex:1;min-width:0} .item .meta small{color:#A3A3A3;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar{height:6px;background:#222;border-radius:3px;margin-top:10px;overflow:hidden;display:none}.bar i{display:block;height:100%;width:0;background:#FF6B00}
+.hint{color:#A3A3A3;font-size:.82rem;margin:6px 0 0}
+.seg label{display:inline-flex;align-items:center;gap:6px;margin:0 14px 0 0;color:#fff;font-size:.9rem}
+#panel{display:none}
+/* ---- phone usability (theme unchanged) ---- */
+input[type=text],input[type=password],input[type=url],textarea{font-size:16px}
+.btn{min-height:44px;touch-action:manipulation}
+.bar{height:10px}
+@media (max-width:600px){
+  header{padding:12px 14px} main{padding:14px}
+  .card{padding:14px}
+  .row>*{min-width:100%}
+  .btn{width:100%} .btn.del{width:auto}
+  .item{flex-wrap:wrap} .item .meta{flex:1 1 140px}
+}
+
+</style>
+</head>
+<body>
+<header><b>ADMIN · KAVIYARASAN.V</b><span><a href="index.html" target="_blank">View site ↗</a><button id="logoutBtn" style="display:none">Logout</button></span></header>
+<main>
+
+<div class="card" id="loginCard">
+  <h2>Admin login</h2>
+  <div id="cfgWarn" class="msg err" style="display:none">Set your own password in <code>config.php</code> (ADMIN_PASSWORD) and re-upload it, then reload this page.</div>
+  <label for="pw">Password</label>
+  <input type="password" id="pw" autocomplete="current-password">
+  <button class="btn" id="loginBtn">Login</button>
+  <div class="msg" id="loginMsg"></div>
+</div>
+
+<div id="panel">
+
+  <div class="card">
+    <h2>Profile photo</h2>
+    <div class="row" style="align-items:center">
+      <img id="curPhoto" src="assets/img/kaviyarasan.jpg" alt="" style="max-width:110px;flex:none;border-radius:3px">
+      <div>
+        <input type="file" id="photoFile" accept="image/*">
+        <button class="btn" id="photoBtn">Upload photo</button>
+        <button class="btn ghost" id="photoReset">Use default photo</button>
+        <div class="msg" id="photoMsg"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Posters &amp; work</h2>
+    <div class="row">
+      <div><label>Title *</label><input type="text" id="wTitle" maxlength="120"></div>
+      <div><label>Category</label><input type="text" id="wCat" maxlength="60" placeholder="Posters"></div>
+    </div>
+    <label>Description</label><textarea id="wDesc" maxlength="300"></textarea>
+    <label>Image *</label><input type="file" id="wFile" accept="image/*">
+    <button class="btn" id="wBtn">Add poster</button>
+    <div class="msg" id="wMsg"></div>
+    <div class="list" id="wList"></div>
+  </div>
+
+  <div class="card">
+    <h2>Videos / reels</h2>
+    <div class="row">
+      <div><label>Title *</label><input type="text" id="vTitle" maxlength="120"></div>
+      <div><label>Category</label><input type="text" id="vCat" maxlength="60" placeholder="Reel"></div>
+    </div>
+    <label>Description</label><textarea id="vDesc" maxlength="300"></textarea>
+    <div class="seg" style="margin-top:12px">
+      <label><input type="radio" name="vmode" value="file" checked> Upload video file</label>
+      <label><input type="radio" name="vmode" value="link"> Instagram / YouTube link</label>
+    </div>
+    <div id="vFileBox"><label>Video file (MP4 recommended)</label><input type="file" id="vFile" accept="video/*,.mp4,.m4v,.mov,.webm"></div>
+    <div id="vLinkBox" style="display:none"><label>Link</label><input type="url" id="vLink" placeholder="https://www.instagram.com/reel/..."></div>
+    <label>Thumbnail image (optional)</label><input type="file" id="vPoster" accept="image/*">
+    <p class="hint">Tip: MP4 (H.264) plays on every phone. Videos up to 900 MB are uploaded in small pieces, so keep the screen on until it finishes.</p>
+    <button class="btn" id="vBtn">Add video</button>
+    <div class="bar" id="vBar"><i></i></div>
+    <div class="msg" id="vMsg"></div>
+    <div class="list" id="vList"></div>
+  </div>
+
+</div>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+let CSRF = '';
+
+function setMsg(el, text, ok){ el.textContent = text || ''; el.className = 'msg ' + (text ? (ok ? 'ok' : 'err') : ''); }
+
+function xhr(action, fd, onProgress){
+  return new Promise((resolve, reject) => {
+    const x = new XMLHttpRequest();
+    x.open('POST', 'api.php?action=' + action);
+    x.withCredentials = true;
+    x.timeout = 0;
+    if (onProgress) x.upload.onprogress = e => { if (e.lengthComputable) onProgress(e.loaded / e.total); };
+    x.onerror = () => reject(new Error('Network error. Check your connection.'));
+    x.onload = () => {
+      let j; try { j = JSON.parse(x.responseText); } catch (e) { return reject(new Error('Server did not return JSON — PHP hosting is required (GitHub Pages cannot run PHP).')); }
+      j.ok ? resolve(j) : reject(new Error(j.error || 'Something went wrong.'));
+    };
+    x.send(fd);
+  });
+}
+async function getJSON(action){
+  const r = await fetch('api.php?action=' + action, { credentials: 'same-origin', cache: 'no-store' });
+  let j; try { j = await r.json(); } catch (e) { throw new Error('Server did not return JSON — PHP hosting is required (GitHub Pages cannot run PHP).'); }
+  return j;
+}
+function form(obj){ const fd = new FormData(); fd.append('csrf', CSRF); for (const k in obj) if (obj[k] !== null && obj[k] !== undefined) fd.append(k, obj[k]); return fd; }
+
+/* shrink big photos in the browser so uploads stay fast (posters keep high quality) */
+function shrinkImage(file, max = 2000){
+  return new Promise(res => {
+    if (!file || !file.type.startsWith('image/') || file.type === 'image/gif') return res(file);
+    const img = new Image(), u = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(u);
+      const w = img.naturalWidth, h = img.naturalHeight;
+      if (Math.max(w, h) <= max && file.size < 4 * 1048576) return res(file);
+      const s = Math.min(1, max / Math.max(w, h));
+      const c = document.createElement('canvas'); c.width = Math.round(w * s); c.height = Math.round(h * s);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      const png = file.type === 'image/png';
+      c.toBlob(b => res(b ? new File([b], png ? 'image.png' : 'image.jpg', { type: png ? 'image/png' : 'image/jpeg' }) : file), png ? 'image/png' : 'image/jpeg', 0.9);
+    };
+    img.onerror = () => { URL.revokeObjectURL(u); res(file); };
+    img.src = u;
+  });
+}
+
+/* ---------- big video upload: 4 MB pieces, auto-retry, works on any phone/host ---------- */
+const CHUNK = 4 * 1048576, MAX_VIDEO = 900 * 1048576;
+let wakeLock = null;
+async function keepAwake(on){
+  try{
+    if (on && 'wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen');
+    else if (!on && wakeLock){ await wakeLock.release(); wakeLock = null; }
+  }catch(e){}
+}
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function randomId(){ const a = new Uint8Array(12); (crypto || window.msCrypto).getRandomValues(a); return Array.from(a, b => b.toString(16).padStart(2, '0')).join(''); }
+
+async function uploadVideoChunked(file, onProgress){
+  if (file.size > MAX_VIDEO) throw new Error('Video is bigger than 900 MB. Compress it first.');
+  const id = randomId(), total = Math.max(1, Math.ceil(file.size / CHUNK));
+  let path = null;
+  for (let i = 0; i < total; i++){
+    const piece = file.slice(i * CHUNK, Math.min(file.size, (i + 1) * CHUNK));
+    let ok = false, lastErr;
+    for (let t = 0; t < 6 && !ok; t++){
+      try{
+        const fd = form({ upload_id: id, index: i, total: total, filename: file.name });
+        fd.append('chunk', piece, 'part.bin');
+        const j = await xhr('chunk', fd, p => onProgress((i + p) / total));
+        if (j.done) path = j.path;
+        ok = true;
+      }catch(e){
+        lastErr = e;
+        if (/log in|Session expired|too large|Unsupported|missing|bigger/i.test(e.message)) throw e; // not a network problem
+        await sleep(1500 * (t + 1));      // weak mobile network: wait and retry this piece
+      }
+    }
+    if (!ok) throw lastErr || new Error('Upload failed. Check your connection and try again.');
+    onProgress((i + 1) / total);
+  }
+  if (!path) throw new Error('Server did not finish the video. Try again.');
+  return path;
+}
+
+/* ---------- login ---------- */
+async function init(){
+  try{
+    const me = await getJSON('me');
+    CSRF = me.csrf;
+    if (!me.configured) $('cfgWarn').style.display = 'block';
+    if (me.admin) showPanel();
+  }catch(e){ setMsg($('loginMsg'), e.message, false); }
+}
+function showPanel(){
+  $('loginCard').style.display = 'none'; $('panel').style.display = 'block'; $('logoutBtn').style.display = 'inline';
+  refresh();
+}
+$('loginBtn').onclick = async () => {
+  const b = $('loginBtn'); b.disabled = true; setMsg($('loginMsg'), '');
+  try{
+    const fd = new FormData(); fd.append('password', $('pw').value);
+    const j = await xhr('login', fd); CSRF = j.csrf; $('pw').value = ''; showPanel();
+  }catch(e){ setMsg($('loginMsg'), e.message, false); }
+  b.disabled = false;
+};
+$('pw').addEventListener('keydown', e => { if (e.key === 'Enter') $('loginBtn').click(); });
+$('logoutBtn').onclick = async () => { try{ await xhr('logout', form({})); }catch(e){} location.reload(); };
+
+/* ---------- lists ---------- */
+function itemRow(thumb, title, sub, onDelete){
+  const row = document.createElement('div'); row.className = 'item';
+  row.appendChild(thumb);
+  const meta = document.createElement('div'); meta.className = 'meta';
+  const h = document.createElement('h3'); h.textContent = title;
+  const s = document.createElement('small'); s.textContent = sub;
+  meta.appendChild(h); meta.appendChild(s); row.appendChild(meta);
+  const d = document.createElement('button'); d.className = 'btn del'; d.textContent = 'Delete'; d.onclick = onDelete; row.appendChild(d);
+  return row;
+}
+async function refresh(){
+  const d = await getJSON('list');
+  $('curPhoto').src = d.photo || 'assets/img/kaviyarasan.jpg';
+
+  const wl = $('wList'); wl.innerHTML = '';
+  (d.work || []).forEach(w => {
+    const img = document.createElement('img'); img.src = w.image; img.alt = '';
+    wl.appendChild(itemRow(img, w.title, w.category || '', async () => {
+      if (!confirm('Delete this poster?')) return;
+      try{ await xhr('delete_work', form({ id: w.id })); refresh(); }catch(e){ setMsg($('wMsg'), e.message, false); }
+    }));
+  });
+
+  const vl = $('vList'); vl.innerHTML = '';
+  (d.videos || []).forEach(v => {
+    let thumb;
+    if (v.poster_url){ thumb = document.createElement('img'); thumb.src = v.poster_url; thumb.alt = ''; }
+    else { thumb = document.createElement('div'); thumb.className = 'vthumb'; thumb.textContent = /^https?:/i.test(v.video_url) ? 'LINK' : 'VIDEO'; }
+    vl.appendChild(itemRow(thumb, v.title, v.video_url, async () => {
+      if (!confirm('Delete this video?')) return;
+      try{ await xhr('delete_video', form({ id: v.id })); refresh(); }catch(e){ setMsg($('vMsg'), e.message, false); }
+    }));
+  });
+}
+
+/* ---------- photo ---------- */
+$('photoBtn').onclick = async () => {
+  const f = $('photoFile').files[0]; if (!f) return setMsg($('photoMsg'), 'Choose a photo first.', false);
+  const b = $('photoBtn'); b.disabled = true; setMsg($('photoMsg'), 'Uploading…', true);
+  try{
+    const img = await shrinkImage(f);
+    await xhr('set_photo', form({ photo: img }));
+    $('photoFile').value = ''; setMsg($('photoMsg'), 'Photo updated ✓', true); refresh();
+  }catch(e){ setMsg($('photoMsg'), e.message, false); }
+  b.disabled = false;
+};
+$('photoReset').onclick = async () => {
+  try{ await xhr('reset_photo', form({})); setMsg($('photoMsg'), 'Default photo restored ✓', true); refresh(); }
+  catch(e){ setMsg($('photoMsg'), e.message, false); }
+};
+
+/* ---------- work ---------- */
+$('wBtn').onclick = async () => {
+  const f = $('wFile').files[0];
+  if (!$('wTitle').value.trim()) return setMsg($('wMsg'), 'Title is required.', false);
+  if (!f) return setMsg($('wMsg'), 'Choose an image.', false);
+  const b = $('wBtn'); b.disabled = true; setMsg($('wMsg'), 'Uploading…', true);
+  try{
+    const img = await shrinkImage(f);
+    const fd = form({ title: $('wTitle').value, category: $('wCat').value, description: $('wDesc').value });
+    fd.append('image', img);
+    await xhr('add_work', fd);
+    ['wTitle','wCat','wDesc','wFile'].forEach(i => $(i).value = '');
+    setMsg($('wMsg'), 'Poster added ✓ — it is live for everyone now.', true); refresh();
+  }catch(e){ setMsg($('wMsg'), e.message, false); }
+  b.disabled = false;
+};
+
+/* ---------- videos ---------- */
+document.querySelectorAll('input[name=vmode]').forEach(r => r.onchange = () => {
+  const link = document.querySelector('input[name=vmode]:checked').value === 'link';
+  $('vFileBox').style.display = link ? 'none' : 'block'; $('vLinkBox').style.display = link ? 'block' : 'none';
+});
+$('vBtn').onclick = async () => {
+  const link = document.querySelector('input[name=vmode]:checked').value === 'link';
+  if (!$('vTitle').value.trim()) return setMsg($('vMsg'), 'Title is required.', false);
+  const vf = $('vFile').files[0];
+  if (!link && !vf) return setMsg($('vMsg'), 'Choose a video file.', false);
+  if (!link && vf.size > MAX_VIDEO) return setMsg($('vMsg'), 'Video is bigger than 900 MB. Compress it first.', false);
+  if (link && !$('vLink').value.trim()) return setMsg($('vMsg'), 'Paste a link.', false);
+  const b = $('vBtn'); b.disabled = true; setMsg($('vMsg'), 'Uploading… 0%', true);
+  const bar = $('vBar'); bar.style.display = 'block'; bar.firstElementChild.style.width = '0';
+  const show = p => { const n = Math.round(p * 100); bar.firstElementChild.style.width = n + '%'; setMsg($('vMsg'), 'Uploading… ' + n + '%  (keep this screen open)', true); };
+  try{
+    await keepAwake(true);
+    let path = '';
+    if (!link) path = await uploadVideoChunked(vf, show);
+    setMsg($('vMsg'), 'Saving…', true);
+    const fd = form({ title: $('vTitle').value, category: $('vCat').value, description: $('vDesc').value, video_link: link ? $('vLink').value : '', video_path: path });
+    const pf = $('vPoster').files[0]; if (pf) fd.append('poster', await shrinkImage(pf));
+    await xhr('add_video', fd);
+    ['vTitle','vCat','vDesc','vFile','vLink','vPoster'].forEach(i => $(i).value = '');
+    setMsg($('vMsg'), 'Video added ✓ — it is live for everyone now.', true); refresh();
+  }catch(e){ setMsg($('vMsg'), e.message, false); }
+  await keepAwake(false);
+  bar.style.display = 'none'; b.disabled = false;
+};
+
+init();
+</script>
+</body>
+</html>

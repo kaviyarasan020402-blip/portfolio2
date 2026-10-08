@@ -1,0 +1,22 @@
+{
+    "photo": null,
+    "work": [
+        {
+            "id": "w_2f6fcf35",
+            "title": "Hiring poster",
+            "category": "Posters",
+            "description": "",
+            "image": "uploads/img/work-1a338f7ca94a.jpg"
+        }
+    ],
+    "videos": [
+        {
+            "id": "v_f2a1e911",
+            "title": "mcc",
+            "category": "Reel",
+            "description": "",
+            "video_url": "uploads/videos/reel-deba7a70e4e8.mp4",
+            "poster_url": ""
+        }
+    ]
+}

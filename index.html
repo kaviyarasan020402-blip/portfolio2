@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaviyarasan V — Video Editor</title>
+<meta name="description" content="Video editor portfolio — reels, promos and camera-to-cut work by Kaviyarasan V, Thanjavur.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=20261008">
+</head>
+<body>
+
+<!-- ===== Ambient editor-tool layer: drifts with cursor + scroll ===== -->
+<div class="editor-fx" id="editorFx" aria-hidden="true">
+  <svg class="efx-icon" data-depth="0.04" data-rot="-8" style="top:12%; left:5%;" viewBox="0 0 24 24"><circle cx="7" cy="6" r="2.4"/><circle cx="7" cy="18" r="2.4"/><path d="M9 7.5L20 17M9 16.5L20 7"/></svg>
+  <svg class="efx-icon" data-depth="0.07" data-rot="6" style="top:22%; left:90%;" viewBox="0 0 24 24"><path d="M3 8l3-3 2 2 12-3v3L8 9.5 5 10.5 3 8z"/><rect x="3" y="10" width="18" height="10" rx="1"/><path d="M7 10v10M13 10v10"/></svg>
+  <svg class="efx-icon" data-depth="0.03" data-rot="10" style="top:68%; left:8%;" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 8h18M3 16h18M7 4v4M7 16v4M17 4v4M17 16v4"/></svg>
+  <svg class="efx-icon" data-depth="0.06" data-rot="-14" style="top:80%; left:88%;" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0v5a2 2 0 0 1-2 2h-1v-6h3M4 18v-5h3v6H6a2 2 0 0 1-2-2z"/></svg>
+  <svg class="efx-icon" data-depth="0.05" data-rot="4" style="top:40%; left:50%;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
+  <svg class="efx-icon" data-depth="0.08" data-rot="-6" style="top:52%; left:14%;" viewBox="0 0 24 24"><path d="M6 4l14 8-14 8V4z"/></svg>
+</div>
+
+<!-- ===== Render-in loader (signature moment) ===== -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-label">RENDERING PORTFOLIO<span class="loader-dots">...</span></div>
+    <div class="loader-bar"><div class="loader-fill" id="loaderFill"></div></div>
+    <div class="loader-pct" id="loaderPct">0%</div>
+  </div>
+</div>
+
+<div class="sprocket-strip" aria-hidden="true" id="sprocketStrip"></div>
+
+<header>
+  <nav class="nav">
+    <div class="mark">KAVIYARASAN<span>.</span>V</div>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" id="navToggle">
+      <span></span><span></span><span></span>
+    </button>
+    <ul id="navList">
+      <li><a href="#work">Poster</a></li>
+      <li><a href="#reels">Video Editing</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="call" href="#contact">Get in touch</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="scrubber" aria-hidden="true">
+    <div class="scrubber-track"></div>
+    <div class="scrubber-head"></div>
+  </div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow-row"><span class="dot"></span> Video Editor · Orathanadu, Thanjavur</div>
+      <h1>Cuts that keep<br><span class="typed-wrap">the <span id="typedWord" class="typed-word">story</span><span class="cursor">|</span></span> moving.</h1>
+      <p class="sub">I'm Kaviyarasan — a video editor who learned the craft on real client work during a five-month digital marketing internship at Dragon Media, Thanjavur. Reels, promos, and camera-to-cut turnarounds, built for brands that need content fast and clean.</p>
+      <div class="meta-row">
+        <div>Based in<strong>Thanjavur, Tamil Nadu</strong></div>
+        <div>Internship<strong>Apr – Aug 2026</strong></div>
+        <div>Core tools<strong>Editing · Meta &amp; Google Ads</strong></div>
+        <div>Contact<strong>akaviy8@gmail.com</strong></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-photo-frame">
+        <img src="assets/img/kaviyarasan.jpg" alt="Kaviyarasan V" class="hero-photo" id="heroPhoto">
+        <span class="frame-tag">REC ●</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Posters &amp; work</h2>
+      <p>Posters, thumbnails and branding pieces.</p>
+    </div>
+    <div class="reel-grid work-grid" id="workGrid">
+      
+    </div>
+  </div>
+</section>
+
+<section id="reels">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Edited reels</h2>
+      <p>A working sample of cuts and reels.</p>
+    </div>
+    <div class="reel-grid" id="reelGrid">
+      <!-- video cards injected by js/main.js -->
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>What I work with</h2>
+      <p>Skills built hands-on during the internship, plus the marketing side that shapes how I edit for reach.</p>
+    </div>
+    <div class="skill-tracks" id="skillTracks">
+      <div class="skill-track" data-level="92">
+        <div class="track-head">
+          <span class="track-thumb" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg></span>
+          <span class="track-num">01</span><h3>Video Editing</h3>
+        </div>
+        <p>Cuts, pacing, transitions, sound sync for short-form content.</p>
+      </div>
+      <div class="skill-track" data-level="80">
+        <div class="track-head">
+          <span class="track-thumb" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3l-1.5 2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.5L15 3H9zm3 6a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/></svg></span>
+          <span class="track-num">02</span><h3>Camera Handling</h3>
+        </div>
+        <p>Basic cinematography and on-set shooting for social content.</p>
+      </div>
+      <div class="skill-track" data-level="75">
+        <div class="track-head">
+          <span class="track-thumb" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 12l6.5-7v4H16a6 6 0 0 1 6 6 6 6 0 0 1-6 6H9v-2h7a4 4 0 0 0 4-4 4 4 0 0 0-4-4H8.5v4L2 12z"/></svg></span>
+          <span class="track-num">03</span><h3>Meta Ads Management</h3>
+        </div>
+        <p>Setting up and running ad campaigns on Facebook &amp; Instagram.</p>
+      </div>
+      <div class="skill-track" data-level="70">
+        <div class="track-head">
+          <span class="track-thumb" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4z"/></svg></span>
+          <span class="track-num">04</span><h3>Google Ads Management</h3>
+        </div>
+        <p>Campaign setup and monitoring for search &amp; display.</p>
+      </div>
+      <div class="skill-track" data-level="78">
+        <div class="track-head">
+          <span class="track-thumb" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4zM8 11a3 3 0 1 0-3-3 3 3 0 0 0 3 3zm0 2c-2.7 0-8 1.34-8 4v3h9.5v-2.5c0-1.2.6-2.27 1.6-3.16A15.6 15.6 0 0 0 8 13zm8 0c-.3 0-.63.02-1 .05 1.24.9 2 2.09 2 3.45V19h7v-2c0-2.66-5.3-4-8-4z"/></svg></span>
+          <span class="track-num">05</span><h3>Lead Generation</h3>
+        </div>
+        <p>Turning campaign traffic into qualified leads for clients.</p>
+      </div>
+      <div class="skill-track" data-level="88">
+        <div class="track-head">
+          <span class="track-thumb" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM7 17H5v-2h2zm0-4H5v-2h2zm0-4H5V7h2zm7 8H9v-2h5zm3-4H9v-2h10zm0-4H9V7h10z"/></svg></span>
+          <span class="track-num">06</span><h3>MS Office</h3>
+        </div>
+        <p>Reporting, planning, and day-to-day documentation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Experience &amp; education</h2>
+    </div>
+    <div class="timeline">
+      <div class="t-item">
+        <div class="t-date">April 2026 – August 2026</div>
+        <h3> Video Editing Intern — BrandMaker, Thanjavur</h3>
+        <p>Hands-on video editing, camera handling and basic video production.</p>
+      </div>
+      <div class="t-item">
+        <div class="t-date">Dec 2025 – Jan 2026</div>
+        <h3>Digital Marketing Course — Dragon Media, Thanjavur</h3>
+        <p> Training in digital marketing ahead of the internship, Exposure to Meta Ads, Google Ads and lead generation for client accounts.</p>
+      </div>
+      <div class="t-item">
+        <div class="t-date">2021 – 2024</div>
+        <h3>BCA, Computer Applications — Ponnaiyah Ramajayam Polytechnic College, Vallam</h3>
+        <p>6.8 CGPA.</p>
+      </div>
+      <div class="t-item">
+        <div class="t-date">2018 – 2021</div>
+        <h3>Diploma in Computer Engineering — Ponnaiyah Ramajayam Polytechnic College, Vallam</h3>
+        <p>82%.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="contact-band" id="contact">
+  <div class="wrap">
+    <h2>Have a video that needs cutting?</h2>
+    <div class="contact-links">
+      <a class="primary" href="mailto:akaviy8@gmail.com">akaviy8@gmail.com</a>
+      <a href="tel:6383676283">+91 63836 76283</a>
+    </div>
+  </div>
+</div>
+
+<footer>Kaviyarasan V · Orathanadu, Thanjavur </footer>
+
+<script src="js/main.js?v=20261008"></script>
+</body>
+</html>
